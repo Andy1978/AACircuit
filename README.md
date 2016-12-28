@@ -9,6 +9,11 @@ It contains many, many global variables, unstructured and undoctumented procedur
 AACircuit was previously released unter the "THE BEER-WARE LICENSE". In 2016 I decided to open it under the GPLv3.
 Perhaps someone wants to fix it to work with Lazarus.
 
+## binaries ##
+
+You'll find binaires as zip [here](http://tech-chat.de/download.php)
+
+
 ## old README.txt: ##
 
 If you save as generic Ascii-circuit (.AAC) file, you still can edit the circuit, e.g. move components.
