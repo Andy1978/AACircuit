@@ -11,7 +11,7 @@ Perhaps someone wants to fix it to work with Lazarus.
 
 ## binaries ##
 
-You'll find binaires as zip [here](http://tech-chat.de/download.php)
+You'll find binaries as zip and an installer [here](http://tech-chat.de/download.php)
 
 
 ## old README.txt: ##
