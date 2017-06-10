@@ -1,8 +1,6 @@
 unit command;
 
-{$IFDEF FPC}
-  {$MODE Delphi}
-{$ENDIF}
+{$MODE Delphi}
 
 interface
 
@@ -34,20 +32,16 @@ implementation
 
 uses main;
 
-{$IFnDEF FPC}
-  {$R *.dfm}
-{$ELSE}
-  {$R *.lfm}
-{$ENDIF}
+{$R *.lfm}
 
 procedure TcommandF.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
- MainForm.neuzeichnen1Click(sender);
+  MainForm.neuzeichnen1Click(Sender);
 end;
 
 procedure TcommandF.EditManuallyClick(Sender: TObject);
 begin
- commandF.memo2.enabled:=CommandF.EditManually.Checked;
+  commandF.memo2.Enabled := CommandF.EditManually.Checked;
 end;
 
 end.

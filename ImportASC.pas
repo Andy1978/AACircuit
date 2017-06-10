@@ -1,102 +1,119 @@
 unit ImportASC;
 
-{$IFDEF FPC}
-  {$MODE Delphi}
-{$ENDIF}
+{$MODE Delphi}
 
 interface
 
-uses SYSUtils,Dialogs;
+uses SysUtils, Dialogs;
 
- function getASCsymbol(const line:Shortstring;var name:shortstring;var x,y:integer;var ori:byte;var mirrored:boolean):boolean;
- function getASCFlag(const line:Shortstring;var text:shortstring;var x,y:integer):boolean;
- function getASCWire(const line:Shortstring;var x,y,x2,y2:integer):boolean;
- function getASCText(const line:Shortstring;var text:shortstring;var x,y:integer):boolean;
- //function getASCWindows(const line:Shortstring;var x,y:integer):boolean;
- function getASCInstName(const line:Shortstring;var text:shortstring):boolean;
- function getASCValue(const line:Shortstring;var text:shortstring):boolean;
+function getASCsymbol(const line: Shortstring; var Name: shortstring; var x, y: Integer; var ori: Byte; var mirrored: Boolean): Boolean;
+function getASCFlag(const line: Shortstring; var Text: shortstring; var x, y: Integer): Boolean;
+function getASCWire(const line: Shortstring; var x, y, x2, y2: Integer): Boolean;
+function getASCText(const line: Shortstring; var Text: shortstring; var x, y: Integer): Boolean;
+//function getASCWindows(const line:Shortstring;var x,y:integer):boolean;
+function getASCInstName(const line: Shortstring; var Text: shortstring): Boolean;
+function getASCValue(const line: Shortstring; var Text: shortstring): Boolean;
+
 implementation
 
 
-function getASCsymbol(const line:Shortstring;var name:shortstring;var x,y:integer;var ori:byte;var mirrored:boolean):boolean;
+function getASCsymbol(const line: Shortstring; var Name: shortstring; var x, y: Integer; var ori: Byte; var mirrored: Boolean): Boolean;
 var
- scan,lastscan:byte;
- temp:Shortstring;
-Begin
- result:=false;
- If Copy(line,0,6)='SYMBOL' Then
- Begin
- Try
-     scan:=8;
-     while (line[scan]<>' ') do inc(scan);
-     name:=copy(line,8,scan-8);
-     inc(scan);
-     lastscan:=scan;
-     while (line[scan]<>' ') do inc(scan);
-     x:=round(strtoint(copy(line,lastscan,scan-lastscan))/4);
-     inc(scan);
-     lastscan:=scan;
-     while (line[scan]<>' ') do inc(scan);
-     y:=round(strtoint(copy(line,lastscan,scan-lastscan))/4);
-     inc(scan);
-     lastscan:=scan;
-     while scan<length(line) do inc(scan);
-     mirrored:=copy(line,lastscan,1)='M';
-     temp:=copy(line,lastscan+1,length(line));
-     ori:=round(strtoint(temp)/90)+1;
-     result:=True;
-  except on EConvertError do showmessage(line+' ist kein gültiges *.asc Kommando...');
-  End;
-  End;
-End;
-function getASCFlag(const line:Shortstring;var text:shortstring;var x,y:integer):boolean;
+  scan, lastscan: Byte;
+  temp: Shortstring;
+begin
+  Result := False;
+  if Copy(line, 0, 6) = 'SYMBOL' then
+  begin
+    try
+      scan := 8;
+      while (line[scan] <> ' ') do
+        Inc(scan);
+      Name := copy(line, 8, scan - 8);
+      Inc(scan);
+      lastscan := scan;
+      while (line[scan] <> ' ') do
+        Inc(scan);
+      x := round(StrToInt(copy(line, lastscan, scan - lastscan)) / 4);
+      Inc(scan);
+      lastscan := scan;
+      while (line[scan] <> ' ') do
+        Inc(scan);
+      y := round(StrToInt(copy(line, lastscan, scan - lastscan)) / 4);
+      Inc(scan);
+      lastscan := scan;
+      while scan < length(line) do
+        Inc(scan);
+      mirrored := copy(line, lastscan, 1) = 'M';
+      temp := copy(line, lastscan + 1, length(line));
+      ori := round(StrToInt(temp) / 90) + 1;
+      Result := True;
+    except
+      on EConvertError do
+        ShowMessage(line + ' ist kein gültiges *.asc Kommando...');
+    end;
+  end;
+end;
+
+function getASCFlag(const line: Shortstring; var Text: shortstring; var x, y: Integer): Boolean;
 var
- scan,lastscan:byte;
-Begin
- result:=false;
- If copy(line,0,4)='FLAG' Then
- Begin
- Try
-     scan:=6;
-     while (line[scan]<>' ') do inc(scan);
-     x:=round(strtoint(copy(line,6,scan-6))/4)-1;
-     inc(scan);
-     lastscan:=scan;
-     while (line[scan]<>' ') do inc(scan);
-     y:=round(strtoint(copy(line,lastscan,scan-lastscan))/4)+1;
-     inc(scan);
-     text:=copy(line,scan,length(line));
-     Result:=True;
-  except on EConvertError do showmessage(line+' ist kein gültiges *.asc Kommando...');
-  End;
-  End;
-End;
-function getASCText(const line:Shortstring;var text:shortstring;var x,y:integer):boolean;
+  scan, lastscan: Byte;
+begin
+  Result := False;
+  if copy(line, 0, 4) = 'FLAG' then
+  begin
+    try
+      scan := 6;
+      while (line[scan] <> ' ') do
+        Inc(scan);
+      x := round(StrToInt(copy(line, 6, scan - 6)) / 4) - 1;
+      Inc(scan);
+      lastscan := scan;
+      while (line[scan] <> ' ') do
+        Inc(scan);
+      y := round(StrToInt(copy(line, lastscan, scan - lastscan)) / 4) + 1;
+      Inc(scan);
+      Text := copy(line, scan, length(line));
+      Result := True;
+    except
+      on EConvertError do
+        ShowMessage(line + ' ist kein gültiges *.asc Kommando...');
+    end;
+  end;
+end;
+
+function getASCText(const line: Shortstring; var Text: shortstring; var x, y: Integer): Boolean;
 var
- scan,lastscan:byte;
-Begin
- result:=false;
- If AnsiLowerCase(copy(line,0,4))='text' Then
- Begin
- Try
-     scan:=6;
-     while (line[scan]<>' ') do inc(scan);
-     x:=round(strtoint(copy(line,6,scan-6))/4);
-     inc(scan);
-     lastscan:=scan;
-     while (line[scan]<>' ') do inc(scan);
-     y:=round(strtoint(copy(line,lastscan,scan-lastscan))/4)+1;
-     inc(scan);
-     while (line[scan]<>' ') do inc(scan);
-     inc(scan);
-     while (line[scan]<>' ') do inc(scan);
-     inc(scan);
-     text:=copy(line,scan,length(line));
-     Result:=True;
-  except on EConvertError do showmessage(line+' ist kein gültiges *.asc Kommando...');
-  End;
-  End;
-End;
+  scan, lastscan: Byte;
+begin
+  Result := False;
+  if AnsiLowerCase(copy(line, 0, 4)) = 'text' then
+  begin
+    try
+      scan := 6;
+      while (line[scan] <> ' ') do
+        Inc(scan);
+      x := round(StrToInt(copy(line, 6, scan - 6)) / 4);
+      Inc(scan);
+      lastscan := scan;
+      while (line[scan] <> ' ') do
+        Inc(scan);
+      y := round(StrToInt(copy(line, lastscan, scan - lastscan)) / 4) + 1;
+      Inc(scan);
+      while (line[scan] <> ' ') do
+        Inc(scan);
+      Inc(scan);
+      while (line[scan] <> ' ') do
+        Inc(scan);
+      Inc(scan);
+      Text := copy(line, scan, length(line));
+      Result := True;
+    except
+      on EConvertError do
+        ShowMessage(line + ' ist kein gültiges *.asc Kommando...');
+    end;
+  end;
+end;
 
 {function getASCWindows(const line:Shortstring;var x,y:integer):boolean;
 var
@@ -124,49 +141,56 @@ Begin
   End;
 End;   }
 
-function getASCWire(const line:Shortstring;var x,y,x2,y2:integer):boolean;
+function getASCWire(const line: Shortstring; var x, y, x2, y2: Integer): Boolean;
 var
- scan,lastscan:byte;
-Begin
- result:=false;
- If Copy(line,0,4)='WIRE' Then
- Begin
- Try
-     scan:=6;
-     while (line[scan]<>' ') do inc(scan);
-     x:=round(strtoint(copy(line,6,scan-6))/4);
-     inc(scan);
-     lastscan:=scan;
-     while (line[scan]<>' ') do inc(scan);
-     y:=round(strtoint(copy(line,lastscan,scan-lastscan))/4);
-     inc(scan);
-     lastscan:=scan;
-     while (line[scan]<>' ') do inc(scan);
-     x2:=round(strtoint(copy(line,lastscan,scan-lastscan))/4);
-     inc(scan);
-     y2:=round(strtoint(copy(line,scan,length(line)-scan+1))/4);
-     result:=True;
-  except on EConvertError do showmessage(line+' ist kein gültiges *.asc wire Kommando...');
-  End;
+  scan, lastscan: Byte;
+begin
+  Result := False;
+  if Copy(line, 0, 4) = 'WIRE' then
+  begin
+    try
+      scan := 6;
+      while (line[scan] <> ' ') do
+        Inc(scan);
+      x := round(StrToInt(copy(line, 6, scan - 6)) / 4);
+      Inc(scan);
+      lastscan := scan;
+      while (line[scan] <> ' ') do
+        Inc(scan);
+      y := round(StrToInt(copy(line, lastscan, scan - lastscan)) / 4);
+      Inc(scan);
+      lastscan := scan;
+      while (line[scan] <> ' ') do
+        Inc(scan);
+      x2 := round(StrToInt(copy(line, lastscan, scan - lastscan)) / 4);
+      Inc(scan);
+      y2 := round(StrToInt(copy(line, scan, length(line) - scan + 1)) / 4);
+      Result := True;
+    except
+      on EConvertError do
+        ShowMessage(line + ' ist kein gültiges *.asc wire Kommando...');
+    end;
   end;
-End;
+end;
 
-function getASCInstName(const line:Shortstring;var text:shortstring):boolean;
-Begin
- result:=false;
- If copy(line,0,16)='SYMATTR InstName' Then
-  Begin
-     text:=copy(line,18,length(line));
-     Result:=True;
-  End;
-End;
-function getASCValue(const line:Shortstring;var text:shortstring):boolean;
-Begin
- result:=false;
- If copy(line,0,13)='SYMATTR Value' Then
-  Begin
-     text:=copy(line,15,length(line));
-     Result:=True;
-  End;
-End;
+function getASCInstName(const line: Shortstring; var Text: shortstring): Boolean;
+begin
+  Result := False;
+  if copy(line, 0, 16) = 'SYMATTR InstName' then
+  begin
+    Text := copy(line, 18, length(line));
+    Result := True;
+  end;
+end;
+
+function getASCValue(const line: Shortstring; var Text: shortstring): Boolean;
+begin
+  Result := False;
+  if copy(line, 0, 13) = 'SYMATTR Value' then
+  begin
+    Text := copy(line, 15, length(line));
+    Result := True;
+  end;
+end;
+
 end.

@@ -1,17 +1,11 @@
 unit scanmemo;
 
-{$IFDEF FPC}
-  {$MODE Delphi}
-{$ENDIF}
+{$MODE Delphi}
 
 interface
 
 uses
-{$IFnDEF FPC}
-  Windows,
-{$ELSE}
   LCLIntf, LCLType, LMessages,
-{$ENDIF}
   Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls;
 
@@ -31,20 +25,16 @@ var
 
 implementation
 
-{$IFnDEF FPC}
-  {$R *.dfm}
-{$ELSE}
-  {$R *.lfm}
-{$ENDIF}
+{$R *.lfm}
 
 procedure Tsresult.LBClick(Sender: TObject);
 begin
- modalresult:=mrok;
+  modalresult := mrOk;
 end;
 
 procedure Tsresult.FormShow(Sender: TObject);
 begin
- lb.ItemIndex:=-1;
+  lb.ItemIndex := -1;
 end;
 
 end.

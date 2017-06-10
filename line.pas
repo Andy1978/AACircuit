@@ -1,37 +1,25 @@
 unit line;
 
-{$IFDEF FPC}
-  {$MODE Delphi}
-{$ENDIF}
+{$MODE Delphi}
 
 interface
 
 uses
-{$IFnDEF FPC}
-  Windows,
-{$ELSE}
-  LCLIntf, LCLType, LMessages,
-{$ENDIF}
-  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  LCLIntf, LCLType, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ExtCtrls, StdCtrls;
 
 type
   TMLform = class(TForm)
   private
-    { Private-Deklarationen }
   public
-    { Public-Deklarationen }
   end;
 
 var
   MLform: TMLform;
 
 implementation
-{$IFnDEF FPC}
-  {$R *.dfm}
-{$ELSE}
-  {$R *.lfm}
-{$ENDIF}
+
+{$R *.lfm}
 
 uses main;
 

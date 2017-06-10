@@ -1,17 +1,11 @@
 unit clipBformunit;
 
-{$IFDEF FPC}
-  {$MODE Delphi}
-{$ENDIF}
+{$MODE Delphi}
 
 interface
 
 uses
-{$IFnDEF FPC}
-  Windows,
-{$ELSE}
   LCLIntf, LCLType, LMessages,
-{$ENDIF}
   Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, Buttons;
 
@@ -36,35 +30,32 @@ var
 
 implementation
 
-{$IFnDEF FPC}
-  {$R *.dfm}
-{$ELSE}
-  {$R *.lfm}
-{$ENDIF}
+{$R *.lfm}
 
 procedure TclipbForm.FormShow(Sender: TObject);
 var
- x:word;
+  x: Word;
 begin
- If LoadDialog.Execute Then
- Begin
-  ClipBForm.ClipBMemo.Lines.LoadFromFile(LoadDialog.filename);
-  // Auf maximal 100 Zeilen kürzen
-  If ClipBForm.ClipBMemo.Lines.Count>100 then
-   For x:=100 to ClipBForm.ClipBMemo.Lines.Count
-    do ClipBForm.ClipBMemo.Lines.Delete(100);
- End
-  else modalresult:=mrNo;
+  if LoadDialog.Execute then
+  begin
+    ClipBForm.ClipBMemo.Lines.LoadFromFile(LoadDialog.filename);
+    // Auf maximal 100 Zeilen kürzen
+    if ClipBForm.ClipBMemo.Lines.Count > 100 then
+      for x := 100 to ClipBForm.ClipBMemo.Lines.Count do
+        ClipBForm.ClipBMemo.Lines.Delete(100);
+  end
+  else
+    modalresult := mrNo;
 end;
 
 procedure TclipbForm.BitBtn3Click(Sender: TObject);
 begin
- modalresult:=mrNo;
+  modalresult := mrNo;
 end;
 
 procedure TclipbForm.BitBtn2Click(Sender: TObject);
 begin
- modalresult:=mrYes;
+  modalresult := mrYes;
 end;
 
 end.

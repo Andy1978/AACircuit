@@ -1,14 +1,12 @@
 object MLform: TMLform
   Left = 202
+  Height = 345
   Top = 107
   Width = 465
-  Height = 345
   Caption = 'Line Einstellungen'
-  Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
-  Font.Style = []
   KeyPreview = True
-  PixelsPerInch = 96
+  LCLVersion = '1.9.0.0'
 end
