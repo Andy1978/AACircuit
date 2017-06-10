@@ -75,7 +75,9 @@
       <Unit7>
         <Filename Value="splash.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="splashF"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit7>
       <Unit8>
         <Filename Value="magline.pas"/>
@@ -111,6 +113,9 @@
       </Options>
     </Linking>
     <Other>
+      <CompilerMessages>
+        <IgnoredMessages idx5024="True"/>
+      </CompilerMessages>
       <CustomOptions Value="-dBorland -dVer150 -dDelphi7 -dCompiler6_Up -dPUREPASCAL"/>
     </Other>
   </CompilerOptions>

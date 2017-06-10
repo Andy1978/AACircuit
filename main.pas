@@ -180,11 +180,9 @@ type
     procedure size4Click(Sender: TObject);
     procedure size3Click(Sender: TObject);
   private
-    { Private-Deklarationen }
     procedure CMMouseEnter(var Message: TMessage); message CM_MOUSEENTER;
     procedure CMMouseLeave(var Message: TMessage); message CM_MOUSELEAVE;
   public
-    { Public-Deklarationen }
   end;
 
 type
@@ -252,11 +250,11 @@ const
   AdvCursor3 = 3;
   compx = 9;
   compy = 6;
-  version = 'v1.28.7 beta 10/23/16';
+  version = 'v1.29.1 beta 06/11/17';
 
 implementation
 
-uses component, scanmemo, line, command, clipBformunit, selection, splash,
+uses component, scanmemo, command, clipBformunit, selection, splash,
   magline, ImportASC;
 
 {$R *.lfm}
@@ -276,7 +274,7 @@ begin
     x2 := MatrixX;
   if y2 > MatrixY then
     y2 := MatrixY;
-  MainForm.paintbox1.Canvas.pen.Color := clsilver;  //Raster clwhite
+  MainForm.paintbox1.Canvas.pen.Color := $E0E0E0;  //Raster clwhite
   for x := x1 to x2 do     //vertikale Linien
   begin
     MainForm.paintbox1.Canvas.MoveTo(x * extentx, y1 * extenty);
@@ -356,6 +354,7 @@ begin
         temp := matrix[x, y]
       else
         temp := 32;
+      MainForm.paintbox1.Canvas.FillRect(x * extentx, y * extenty, (x + 1) * extentx, (y + 1) * extenty);
       MainForm.paintbox1.Canvas.TextOut(x * extentx, y * extenty, chr(temp));
     end;
   gridrasterRect(x1, y1, x2, y2);
@@ -2455,6 +2454,9 @@ begin
     closefile(bib);
   end;
   MainForm.comploadClick(Sender);  //Symbole laden
+  //MainForm.paintbox1.Canvas.Font.Name := 'Courier New';
+  //MainForm.paintbox1.Canvas.Font.Name := 'Courier New';
+  //MainForm.paintbox1.Canvas.Font.Size := 10;
 end;
 
 procedure TmainForm.bcompClick(Sender: TObject);

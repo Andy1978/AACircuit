@@ -598,6 +598,7 @@ object mainForm: TmainForm
       Height = 25
       Top = 2
       Width = 24
+      Caption = ''''
       OnClick = TempCharButtonClick
       TabOrder = 9
     end
