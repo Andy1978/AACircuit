@@ -1,5 +1,9 @@
 unit ImportASC;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 uses SYSUtils,Dialogs;
@@ -41,7 +45,7 @@ Begin
      temp:=copy(line,lastscan+1,length(line));
      ori:=round(strtoint(temp)/90)+1;
      result:=True;
-  except on EConvertError do showmessage(line+' ist kein gültiges *.asc Kommando...');
+  except on EConvertError do showmessage(line+' ist kein gÃ¼ltiges *.asc Kommando...');
   End;
   End;
 End;
@@ -63,7 +67,7 @@ Begin
      inc(scan);
      text:=copy(line,scan,length(line));
      Result:=True;
-  except on EConvertError do showmessage(line+' ist kein gültiges *.asc Kommando...');
+  except on EConvertError do showmessage(line+' ist kein gÃ¼ltiges *.asc Kommando...');
   End;
   End;
 End;
@@ -89,7 +93,7 @@ Begin
      inc(scan);
      text:=copy(line,scan,length(line));
      Result:=True;
-  except on EConvertError do showmessage(line+' ist kein gültiges *.asc Kommando...');
+  except on EConvertError do showmessage(line+' ist kein gÃ¼ltiges *.asc Kommando...');
   End;
   End;
 End;
@@ -115,7 +119,7 @@ Begin
      while (line[scan]<>' ') do inc(scan);
      y:=round(strtoint(copy(line,lastscan,scan-lastscan))/4);
      Result:=True;
-  except on EConvertError do showmessage(line+' ist kein gültiges *.asc Kommando...');
+  except on EConvertError do showmessage(line+' ist kein gÃ¼ltiges *.asc Kommando...');
   End;
   End;
 End;   }
@@ -142,7 +146,7 @@ Begin
      inc(scan);
      y2:=round(strtoint(copy(line,scan,length(line)-scan+1))/4);
      result:=True;
-  except on EConvertError do showmessage(line+' ist kein gültiges *.asc wire Kommando...');
+  except on EConvertError do showmessage(line+' ist kein gÃ¼ltiges *.asc wire Kommando...');
   End;
   end;
 End;

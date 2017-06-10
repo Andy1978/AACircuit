@@ -1,9 +1,18 @@
 unit magline;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+{$IFnDEF FPC}
+  Windows,
+{$ELSE}
+  LCLIntf, LCLType, LMessages,
+{$ENDIF}
+  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ExtCtrls, StdCtrls, ComCtrls, Buttons;
 
 type
@@ -50,10 +59,14 @@ implementation
 
 uses main;
 
-{$R *.DFM}
+{$IFnDEF FPC}
+  {$R *.dfm}
+{$ELSE}
+  {$R *.lfm}
+{$ENDIF}
 procedure ClearCursor;
 Begin
-  //alte Cursor-Box grau ¸berschreiben
+  //alte Cursor-Box grau √ºberschreiben
   MagLineF.MLBox.canvas.brush.Style:=bsclear;
   MagLineF.MLBox.canvas.pen.color:=clgray;
   MagLineF.MLBox.Canvas.Rectangle(cursorx*extentx,cursory*extenty,(cursorx+1)*extentx+1,(cursory+1)*extenty+1);
@@ -90,7 +103,7 @@ Procedure ShowIdata;
 var
  index:byte;
 Begin
-  //PaintBox lˆschen und paint
+  //PaintBox lŸêschen und paint
   MagLineF.MLBox.Canvas.brush.Style:=bssolid;
   MagLineF.MLBox.Canvas.Font.Color:=ClBlack;
   MagLineF.MLBox.Canvas.FillRect(Rect(0,0,3*extentx,3*extenty)) ;

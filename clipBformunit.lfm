@@ -1,0 +1,76 @@
+object clipbForm: TclipbForm
+  Left = 261
+  Top = 160
+  BorderStyle = bsToolWindow
+  Caption = 'ASCII file preview'
+  ClientHeight = 343
+  ClientWidth = 378
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  Position = poScreenCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object clipBmemo: TMemo
+    Left = 8
+    Top = 4
+    Width = 361
+    Height = 301
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -8
+    Font.Name = 'Courier New'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+  end
+  object BitBtn1: TBitBtn
+    Left = 8
+    Top = 312
+    Width = 113
+    Height = 25
+    Caption = 'Load another file'
+    TabOrder = 1
+    OnClick = FormShow
+    Glyph.Data = {
+      76010000424D7601000000000000760000002800000020000000100000000100
+      0400000000000001000000000000000000001000000010000000000000000000
+      800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+      FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+      3333333333FFFFF3333333333999993333333333F77777FFF333333999999999
+      3333333777333777FF33339993707399933333773337F3777FF3399933000339
+      9933377333777F3377F3399333707333993337733337333337FF993333333333
+      399377F33333F333377F993333303333399377F33337FF333373993333707333
+      333377F333777F333333993333101333333377F333777F3FFFFF993333000399
+      999377FF33777F77777F3993330003399993373FF3777F37777F399933000333
+      99933773FF777F3F777F339993707399999333773F373F77777F333999999999
+      3393333777333777337333333999993333333333377777333333
+    }
+    NumGlyphs = 2
+  end
+  object BitBtn2: TBitBtn
+    Left = 132
+    Top = 312
+    Width = 113
+    Height = 25
+    TabOrder = 2
+    OnClick = BitBtn2Click
+    Kind = bkOK
+  end
+  object BitBtn3: TBitBtn
+    Left = 256
+    Top = 312
+    Width = 113
+    Height = 25
+    TabOrder = 3
+    OnClick = BitBtn3Click
+    Kind = bkAbort
+  end
+  object loadDialog: TOpenDialog
+    Filter = 'Textfile *.txt|*.txt|all files , alle Dateien *.*|*.*'
+    Left = 312
+    Top = 232
+  end
+end

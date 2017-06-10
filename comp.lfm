@@ -1,0 +1,51 @@
+object Form2: TForm2
+  Left = 141
+  Top = 122
+  Width = 544
+  Height = 375
+  Caption = 'Form2'
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  PixelsPerInch = 96
+  object PB: TPaintBox
+    Left = 24
+    Top = 8
+    Width = 97
+    Height = 337
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Courier'
+    Font.Style = []
+    ParentFont = False
+  end
+  object ListBox1: TListBox
+    Left = 200
+    Top = 16
+    Width = 121
+    Height = 161
+    ItemHeight = 13
+    TabOrder = 0
+  end
+  object Button1: TButton
+    Left = 384
+    Top = 64
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 1
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Left = 216
+    Top = 216
+    Width = 75
+    Height = 25
+    Caption = 'Button2'
+    TabOrder = 2
+    OnClick = Button2Click
+  end
+end

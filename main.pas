@@ -1,11 +1,21 @@
 unit main;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls,INIFiles, Buttons,math, Menus, ComCtrls,Printers,WinSpool,ShellApi;
+{$IFnDEF FPC}
+  ShellApi, Windows,
+{$ELSE}
+  LCLIntf, LCLType, LMessages,
+{$ENDIF}
+  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls,
+  ExtCtrls, INIFiles, Buttons, math, Menus, ComCtrls, Printers, WinSpool,
+  PrintersDlgs;
 
 function LoadASC(const filename:string):boolean;
 
@@ -210,7 +220,11 @@ type
   s_char:byte;
  end;
  TPPoint = record
-  X: shortint;  Y: shortint;  XM:shortint;  YM:shortint; end;
+  X: shortint;
+  Y: shortint;
+  XM:shortint;
+  YM:shortint;
+ end;
  PPickpoint=^TPickpoint;
  TPickPoint=array[0..3] of TPPoint;
 var
@@ -220,7 +234,7 @@ var
   PickPoints:PPickpoint;
   mainForm: TmainForm;
   Text_Editor:TText_edit;
-  matrix:array[0..199,0..69]of byte; //damit bei ILine nicht Bereichs¸berschreitung
+  matrix:array[0..199,0..69]of byte; //damit bei ILine nicht Bereichs√ºberschreitung
   comp:array[1..60,1..4,0..8,0..5] of byte;
   tempcomp:array[0..8,0..5] of byte;
   tempchar:byte;
@@ -236,17 +250,21 @@ var
   selectbox:Tselectbox;
   MatrixX,MatrixY:Byte;
 const
- IDataMAXItems=20; //maximal 20 Eintr‰ge siehe auch array oben
+ IDataMAXItems=20; //maximal 20 EintrŸÜge siehe auch array oben
  AdvCursor1=1; AdvCursor2=2; AdvCursor3=3;
  compx=9;
  compy=6;
  version='v1.28.7 beta 10/23/16';
 implementation
 
-uses component, scanmemo, line, command, ClipBFormUnit, selection, splash,
-  magline,importASC;
+uses component, scanmemo, line, command, clipBformunit, selection, splash,
+  magline,ImportASC;
 
-{$R *.DFM}
+{$IFnDEF FPC}
+  {$R *.dfm}
+{$ELSE}
+  {$R *.lfm}
+{$ENDIF}
 {$R cursors.RES}
 
 procedure gridrasterRECT(x1,y1,x2,y2:integer);
@@ -269,7 +287,7 @@ Begin
        MainForm.paintbox1.Canvas.MoveTo(x1*extentx,y*extenty);
        MainForm.paintbox1.Canvas.LineTo(x2*extentx,y*extenty);
       End;
-        //schwarze R‰nder nachzeichnen
+        //schwarze RŸÜnder nachzeichnen
    MainForm.Paintbox1.Canvas.pen.Color:=clblack;
    If x1=0 Then
     Begin
@@ -328,7 +346,7 @@ Begin
   mRectRefresh(0,0,matrixx-1,matrixy-1) ;
 End;
 procedure mboxrefresh;
-//box wie sie bei rect oder select entsteht ¸berschreiben
+//box wie sie bei rect oder select entsteht √ºberschreiben
 Begin
     mrectrefresh(rectx,recty,mausxsave,recty);
     mrectrefresh(rectx,mausysave,mausxsave,mausysave);
@@ -341,7 +359,7 @@ Begin
   Begin  //es wurde ein Text eingegeben
    if length(Text_Editor.text)=1 Then  //einzelner Buchstabe
     commandF.memo2.Lines.Add('char:'+inttostr(ord(Text_Editor.text[1]))+','+inttostr(Text_Editor.Left)+','+inttostr(Text_Editor.Y));
-   if length(Text_Editor.text)>1 Then  //zusammenh‰ngender Text
+   if length(Text_Editor.text)>1 Then  //zusammenhŸÜngender Text
     commandF.memo2.Lines.Add('text:'+Text_Editor.text+','+inttostr(Text_Editor.left)+','+inttostr(Text_Editor.y));
    Text_Editor.text:='';
    Text_Editor.coherent:=False;
@@ -462,7 +480,7 @@ Begin
      lastscan:=scan;
      while (memoline[scan]<>',') And (scan<=length(memoline)) do inc(scan);
      gespiegeltchar:=memoline[lastscan];
-  except on EConvertError do showmessage(memoline+' ist kein g¸ltiges Zeichen-Kommando...');
+  except on EConvertError do showmessage(memoline+' ist kein g√ºltiges Zeichen-Kommando...');
   End;
 End;
 
@@ -722,7 +740,7 @@ Begin
               case m_deg of
                -64..-21: c:='`';
                -20..20:  c:='''';
-                21..64:  c:='¥';
+                21..64:  c:=ansichar($B4)//'¬¥';
                end;
 
              If c='.' then
@@ -817,8 +835,8 @@ Begin
     If toArray Then matrix[left,temp]:=ord(p_char);
    End;
  //Eckzeichen
- If ((dir=0) And (abs(dy)>0)) or ((dir=1) And (abs(dx)>0)) Then  //gibt es ¸berhaupt eine ecke?
-// If (abs(dx)>0) Then  //gibt es ¸berhaupt eine ecke?
+ If ((dir=0) And (abs(dy)>0)) or ((dir=1) And (abs(dx)>0)) Then  //gibt es √ºberhaupt eine ecke?
+// If (abs(dx)>0) Then  //gibt es √ºberhaupt eine ecke?
   Begin
    MainForm.paintbox1.Canvas.TextOut(left*extentx,top*extenty,chr(corner_char));
    If toArray Then matrix[left,top]:=corner_char;
@@ -868,7 +886,7 @@ End;
 
 procedure ILinepaint(const x1,y1,x2,y2:byte;const toArray:boolean);
 var
- // alte MagLine, wegen abw‰rtscompatibilit‰t noch vorhanden
+ // alte MagLine, wegen abwŸÜrtscompatibilitŸÜt noch vorhanden
  mx,my,temp,xdiv,ydiv,eckx,ecky,SEcount:byte;
  startC,endC,eckC:char;
  startr:1..2; //Startrichtung 1=oben/unten  2=rechts/links
@@ -879,7 +897,7 @@ Begin
   SECount:=0;
   IF x2>=x1 Then xdiv:=x2-x1 Else xdiv:=x1-x2;  //Diffenernz x
   IF y2>=y1 Then ydiv:=y2-y1 Else ydiv:=y1-y2;  //Diffenernz y
-  // nichts drumherum     // gepr¸ft
+  // nichts drumherum     // gepr√ºft
   If (matrix[x1-1,y1]=0) AND (matrix[x1+1,y1]=0) AND (matrix[x1,y1-1]=0) AND (matrix[x1,y1+1]=0) Then
    Begin
     IF xdiv>ydiv then startr:=2 Else startr:=1;
@@ -1248,7 +1266,7 @@ Begin
         commandF.memo2.Lines.Delete(mlindex);
        If (selectbox.mode=1) or (selectbox.mode=2) Then //move oder copy
         Begin
-         //If selectbox.mode=1 Then //move  bestehende symbole lˆschen
+         //If selectbox.mode=1 Then //move  bestehende symbole lŸêschen
          // commandF.memo2.Lines.Delete(mlindex);
          If compfound then
           mline:=('comp:'+inttostr(memocomp)+','+inttostr(memoori)+','+
@@ -1341,7 +1359,7 @@ Begin
       sresult.LB.Items.add('Line:'+inttostr(mlindex)+': '+chr(memocomp));
      IF textfound Then
       sresult.LB.Items.add('text:'+inttostr(mlindex)+': '+text);
-     If found=True then morefound:=True;    //mehrere ¸berlagerte gefunden
+     If found=True then morefound:=True;    //mehrere √ºberlagerte gefunden
      found:=True;
      //showmessage(inttostr(memocomp)+' gefunden');
 
@@ -1379,7 +1397,7 @@ Begin
          MainForm.ListBox1Click(sender);
          if gespiegeltchar='s' then gespiegelt:=true;
         End;
-       If linefound Then      // wieder die urspr¸ngliche Linie w‰hlen
+       If linefound Then      // wieder die urspr√ºngliche Linie wŸÜhlen
         Begin
          case memocomp of
           0:mainform.lb1.Click;
@@ -1411,7 +1429,7 @@ begin
     If mausy>matrixY Then mausY:=matrixy;
     If editmode then
      Begin
-      //alte EditCursor Position ¸berschreiben
+      //alte EditCursor Position √ºberschreiben
       PlaceEditorText;
       mRectRefresh(Text_Editor.x,Text_Editor.y,Text_Editor.x,Text_Editor.y);
       Text_Editor.x:=mausx;
@@ -1605,7 +1623,7 @@ begin
   End;
 end;
 function getPickPoints(const puffer:string;var index:byte;var X,Y,XM,YM:ShortInt):boolean;
-//f¸r den IMPORT von LTSpice
+//f√ºr den IMPORT von LTSpice
 Begin
  index:=0;
  while ((puffer[index]<>'>') AND (index<30)) do inc(index);
@@ -1621,7 +1639,7 @@ Begin
 End;
 function CheckEraser(const puffer:string):boolean;
 Begin
- Result:=( (pos('Eraser',puffer)>0) OR (pos('ViskelÊder',puffer)>0) OR (pos('Radierer',puffer)>0))
+ Result:=( (pos('Eraser',puffer)>0) OR (pos('ViskelŸàder',puffer)>0) OR (pos('Radierer',puffer)>0))
 End;
 
 procedure LoadIData;
@@ -1656,7 +1674,7 @@ Begin
      IData[index].s_char:=ord(puffer[11]);
      inc(index);
     End; 
-  Until EOF(datafile) or (index=IDataMAXItems);    //maximal Eintr‰ge
+  Until EOF(datafile) or (index=IDataMAXItems);    //maximal EintrŸÜge
   IDataItemIndex:=index;
   closefile(datafile);
  End;
@@ -1667,7 +1685,7 @@ var
  BIB: TextFile;
  filename:shortstring;
  puffer:string;
- x,y:integer; // Z‰hler f¸r Raster
+ x,y:integer; // ZŸÜhler f√ºr Raster
  listindex:integer;
  compindex,ori,laenge:byte; //orientation
  CompNameEndIndex,temp:Byte;
@@ -1688,7 +1706,7 @@ begin
   +ExtractFilePath(Paramstr(0))+chr(13)
   +'Symboldatei nicht gefunden...'+chr(13)
   +'Symbolfile component'+inttostr(sprache)+'.ini not found...'+chr(13)
-  +'Deutsch als Standard Sprache f¸r Symboldatei geladen...'+chr(13)
+  +'Deutsch als Standard Sprache f√ºr Symboldatei geladen...'+chr(13)
   +'Language German loaded as default');
    sprache:=1; //deutsch als standard sprache einsetzen;
    filename:=ExtractFilePath(Paramstr(0))+'component'+inttostr(sprache)+'.ini';
@@ -1711,7 +1729,7 @@ begin
    firstPickPoint:=getPickPoints(puffer,CompNameEndIndex,PickPoints^[0].X,PickPoints^[0].Y,PickPoints^[0].XM,PickPoints^[0].YM);
    //if not FirstPickPoint Then dispose(PickPoints);
    listbox1.Items.Add(copy(puffer,2,CompNameEndIndex-2));  //klammern <...> wegschneiden
-   //showmessage(copy(puffer,charindex+1,2)+'    l‰nge'+inttostr(length(puffer))+'    charindex'+inttostr(charindex));
+   //showmessage(copy(puffer,charindex+1,2)+'    lŸÜnge'+inttostr(length(puffer))+'    charindex'+inttostr(charindex));
 
    If CheckEraser(puffer) Then
     eraser:=compindex+1;
@@ -1840,14 +1858,14 @@ begin
       End;
      If rectmode AND (not ersterRpunkt) Then
       Begin
-       // rect ¸berschreiben, jede Seite einzeln
+       // rect √ºberschreiben, jede Seite einzeln
        mboxrefresh;
        lrectangle(rectx,recty,mausx,mausy,False);
        //gridraster;
       End;
      If (selectmode AND not ersterRpunkt AND not selectbox.rect_coord) Then
       Begin
-       // rect ¸berschreiben, jede Seite einzeln
+       // rect √ºberschreiben, jede Seite einzeln
        mboxrefresh;
        MainForm.paintbox1.Canvas.font.Color:=clgreen;
        lrectangle(rectx,recty,mausx,mausy,False);
@@ -1995,7 +2013,7 @@ begin
        lineempty:=False;
        leercount:=0;
       End;
-   //paintbox1.Canvas.TextOut(x*extentx,y+extenty,chr(temp));   weiﬂ nicht mehr weshalb...
+   //paintbox1.Canvas.TextOut(x*extentx,y+extenty,chr(temp));   weiŸÉ nicht mehr weshalb...
    stringpuffer:=stringpuffer+chr(temp);
   End;
   stringpuffer:=copy(stringpuffer,1,matrixX-leercount);
@@ -2003,7 +2021,7 @@ begin
    Else linecountcut:=0;
   ClipBForm.ClipBMemo.Lines.Add(stringpuffer);
  end;
- // ¸berfl¸ssige Zeilen am Ende abschneiden
+ // √ºberfl√ºssige Zeilen am Ende abschneiden
  for x:=ClipBForm.ClipBMemo.Lines.Count downto ClipBForm.ClipBMemo.Lines.Count-linecountcut do
   ClipBForm.ClipBMemo.Lines.Delete(x);
  ClipBForm.ClipBMemo.Lines.Add('(created by AACircuit '+version+' www.tech-chat.de)');
@@ -2025,12 +2043,12 @@ var
 
 begin
  MatrixX:=72; //felder breite
- MatrixY:=36; //felder hˆhe
+ MatrixY:=36; //felder hŸêhe
  Screen.Cursors[AdvCursor1] := LoadCursor(HInstance, 'ADVCROSS1');
  Screen.Cursors[AdvCursor2] := LoadCursor(HInstance, 'ADVCROSS2');
  Screen.Cursors[AdvCursor3] := LoadCursor(HInstance, 'ADVCROSS3');
  mainForm.Caption:='AACircuit '+version+'                                                                                             by Andreas Weber';
- PickPointList:=TList.Create; //f¸r Import ASC
+ PickPointList:=TList.Create; //f√ºr Import ASC
  firstimport:=True;
  edited:=false;
  showori:=1;
@@ -2046,7 +2064,7 @@ begin
    Showmessage('Fehlende Datei im Verzeichnis : '+chr(13)
    +'Missing file path:'+chr(13)
    +ExtractFilePath(Paramstr(0))+chr(13)
-   +'Men¸datei menu.ini nicht gefunden...'+chr(13)
+   +'Men√ºdatei menu.ini nicht gefunden...'+chr(13)
    +'File menu.ini not found...'+chr(13)
    +'Programm wird geschlossen. Program terminates.');
    halt;
@@ -2090,7 +2108,7 @@ begin
     End;
    End;
   readln(bib,puffer);
-  mainmenu1.items[4].caption:=puffer; //Hauptmen¸ SPRACHE
+  mainmenu1.items[4].caption:=puffer; //Hauptmen√º SPRACHE
   readln(bib,puffer);
   If puffer='<SpeedButton.hints>' Then
   Begin
@@ -2165,7 +2183,7 @@ var
  temp,leercount:byte;
 begin
  IF (savedialog1.Execute) AND (NOT (fileExists(savedialog1.FileName)) OR
-     (Application.MessageBox(Pchar('Vorhandene Datei ¸berschreiben?'+chr(13)+'Overwrite existing file?'),'File already exists!',4+16+mb_DefButton2)=IDYes)) Then
+     (Application.MessageBox(Pchar('Vorhandene Datei √ºberschreiben?'+chr(13)+'Overwrite existing file?'),'File already exists!',4+16+mb_DefButton2)=IDYes)) Then
   Begin
    Assignfile(saveFile,savedialog1.FileName);
    rewrite(saveFile);
@@ -2192,7 +2210,7 @@ end;
 
 procedure TmainForm.Neu1Click(Sender: TObject);
 begin
- IF (Application.MessageBox(Pchar('Wirklich ALLES lˆschen?'+chr(13)+'Delete ALL?'),'Vorsicht!',4+16+mb_DefButton2)=IDYes)
+ IF (Application.MessageBox(Pchar('Wirklich ALLES lŸêschen?'+chr(13)+'Delete ALL?'),'Vorsicht!',4+16+mb_DefButton2)=IDYes)
  Then
   Begin
    fillchar(matrix,sizeof(matrix),#0);
@@ -2425,7 +2443,7 @@ var
  sline:Byte;      //Memo Zeile
 begin
  IF (SaveAAC.Execute) AND (NOT (fileExists(SaveAAC.FileName)) OR
-     (Application.MessageBox(Pchar('Vorhandene Datei ¸berschreiben?'+chr(13)+'Overwrite existing file?'),'File already exists!',4+16+mb_DefButton2)=IDYes)) Then
+     (Application.MessageBox(Pchar('Vorhandene Datei √ºberschreiben?'+chr(13)+'Overwrite existing file?'),'File already exists!',4+16+mb_DefButton2)=IDYes)) Then
   Begin
    OpenAAC.InitialDir:=ExtractFilePath(SaveAAC.FileName);
    Assignfile(saveFile,SaveAAC.FileName);
@@ -2513,7 +2531,7 @@ begin
    Showmessage('Fehlende Datei im Verzeichnis : '+chr(13)
    +'Missing file path:'+chr(13)
    +ExtractFilePath(Paramstr(0))+chr(13)
-   +'Men¸datei menu.ini nicht gefunden...'+chr(13)
+   +'Men√ºdatei menu.ini nicht gefunden...'+chr(13)
    +'File menu.ini not found...'+chr(13)
    +'Programm wird geschlossen. Program terminates.');
    halt;
@@ -2536,7 +2554,7 @@ begin
   closefile(quelle);
   closefile(ziel);
  End;
-  showmessage('Programm neu starten um ƒnderungen zu aktivieren!'+chr(13)+'Please restart program to apply changes');
+  showmessage('Programm neu starten um ÿ§nderungen zu aktivieren!'+chr(13)+'Please restart program to apply changes');
 end;
 
 procedure TmainForm.FormKeyDown(Sender: TObject; var Key: Word;
@@ -2554,7 +2572,7 @@ begin
      If key=8 Then
       Text_Editor.text:=Copy(Text_Editor.text,0,Length(Text_Editor.text)-1)
      Else PlaceEditorText;
-     //Alte Cursorposition lˆschen
+     //Alte Cursorposition lŸêschen
      mrectrefresh(Text_Editor.X,Text_Editor.Y,Text_Editor.X,Text_Editor.Y);
      blink.Enabled:=False;
     End;
@@ -2744,7 +2762,7 @@ Begin
         If (x=x2) or (y=y2) Then  //waagerechte oder senkrechte Linie
            commandF.memo2.Lines.Add('line:0,'+inttostr(x)+','+inttostr(y)+','+inttostr(x2)+','+inttostr(y2))
           //commandF.memo2.Lines.Add('MagL:1,'+inttostr(x)+','+inttostr(y)+','+inttostr(x2)+','+inttostr(y2))
-        Else //schr‰ge Linie
+        Else //schrŸÜge Linie
          commandF.memo2.Lines.Add('DirL:0,'+inttostr(x)+','+inttostr(y)+','+inttostr(x2)+','+inttostr(y2));
       End;
     Until EOF(ascfile);
@@ -2871,7 +2889,9 @@ begin
 end;
 
 procedure TmainForm.Help1Click(Sender: TObject);
-begin Application.HelpCommand(HELP_INDEX,0) end;
+begin
+// Application.HelpCommand(HELP_INDEX,0)
+end;
 
 procedure TmainForm.licenceandcredits1Click(Sender: TObject);
 begin
@@ -2880,9 +2900,7 @@ end;
 
 procedure TmainForm.visitHomepage1Click(Sender: TObject);
 begin
-ShellExecute(Application.Handle, 'open',
-             PCHar('http://www.tech-chat.de'), nil, nil,
-             SW_ShowNormal);
+OpenURL(PCHar('http://www.tech-chat.de')); { *Converted from ShellExecute* }
 
 end;
 
@@ -2902,7 +2920,7 @@ procedure TmainForm.size1Click(Sender: TObject);
 begin
  size1.Checked:=True;
  MatrixX:=72; //felder breite
- MatrixY:=36; //felder hˆhe
+ MatrixY:=36; //felder hŸêhe
  SetPaintBox;
 end;
 
@@ -2910,7 +2928,7 @@ procedure TmainForm.size2Click(Sender: TObject);
 begin
  size2.Checked:=True;
  MatrixX:=72; //felder breite
- MatrixY:=49; //felder hˆhe
+ MatrixY:=49; //felder hŸêhe
  SetPaintBox;
 end;
 
@@ -2918,7 +2936,7 @@ procedure TmainForm.size4Click(Sender: TObject);
 begin
  size3.Checked:=True;
  MatrixX:=200; //felder breite
- MatrixY:=70; //felder hˆhe
+ MatrixY:=70; //felder hŸêhe
  SetPaintBox;
 end;
 
@@ -2926,7 +2944,7 @@ procedure TmainForm.size3Click(Sender: TObject);
 begin
  size3.Checked:=True;
  MatrixX:=100; //felder breite
- MatrixY:=49; //felder hˆhe
+ MatrixY:=49; //felder hŸêhe
  SetPaintBox;
 end;
 
