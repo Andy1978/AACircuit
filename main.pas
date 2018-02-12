@@ -8,7 +8,7 @@ interface
 uses
   LCLIntf, LCLType, LMessages,
   Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls,
-  ExtCtrls, INIFiles, Buttons, Math, Menus, ComCtrls, Printers, WinSpool,
+  ExtCtrls, INIFiles, Buttons, Math, Menus, ComCtrls, Printers,
   PrintersDlgs;
 
 function LoadASC(const filename: String): Boolean;
