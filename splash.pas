@@ -1,9 +1,12 @@
 unit splash;
 
+{$MODE Delphi}
+
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  LCLIntf, LCLType,
+  SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, Buttons, ExtCtrls;
 
 type
@@ -17,9 +20,7 @@ type
     Label4: TLabel;
     Label5: TLabel;
   private
-    { Private-Deklarationen }
   public
-    { Public-Deklarationen }
   end;
 
 var
@@ -27,6 +28,6 @@ var
 
 implementation
 
-{$R *.DFM}
+{$R *.lfm}
 
 end.

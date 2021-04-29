@@ -1,9 +1,12 @@
 unit clipBformunit;
 
+{$MODE Delphi}
+
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  LCLIntf, LCLType, LMessages,
+  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, Buttons;
 
 type
@@ -27,31 +30,32 @@ var
 
 implementation
 
-{$R *.DFM}
+{$R *.lfm}
 
 procedure TclipbForm.FormShow(Sender: TObject);
 var
- x:word;
+  x: Word;
 begin
- If LoadDialog.Execute Then
- Begin
-  ClipBForm.ClipBMemo.Lines.LoadFromFile(LoadDialog.filename);
-  // Auf maximal 100 Zeilen kürzen
-  If ClipBForm.ClipBMemo.Lines.Count>100 then
-   For x:=100 to ClipBForm.ClipBMemo.Lines.Count
-    do ClipBForm.ClipBMemo.Lines.Delete(100);
- End
-  else modalresult:=mrNo;
+  if LoadDialog.Execute then
+  begin
+    ClipBForm.ClipBMemo.Lines.LoadFromFile(LoadDialog.filename);
+    // Auf maximal 100 Zeilen kÃ¼rzen
+    if ClipBForm.ClipBMemo.Lines.Count > 100 then
+      for x := 100 to ClipBForm.ClipBMemo.Lines.Count do
+        ClipBForm.ClipBMemo.Lines.Delete(100);
+  end
+  else
+    modalresult := mrNo;
 end;
 
 procedure TclipbForm.BitBtn3Click(Sender: TObject);
 begin
- modalresult:=mrNo;
+  modalresult := mrNo;
 end;
 
 procedure TclipbForm.BitBtn2Click(Sender: TObject);
 begin
- modalresult:=mrYes;
+  modalresult := mrYes;
 end;
 
 end.

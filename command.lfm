@@ -1,0 +1,32 @@
+object commandF: TcommandF
+  Left = 278
+  Top = 279
+  Width = 558
+  Height = 331
+  Caption = 'Draw-Commands'
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OnClose = FormClose
+  PixelsPerInch = 96
+  object Memo2: TMemo
+    Left = 11
+    Top = 36
+    Width = 534
+    Height = 261
+    Enabled = False
+    ScrollBars = ssVertical
+    TabOrder = 0
+  end
+  object EditManually: TCheckBox
+    Left = 150
+    Top = 12
+    Width = 256
+    Height = 17
+    Caption = 'Edit the draw commands manually. Use carefully !!!'
+    TabOrder = 1
+    OnClick = EditManuallyClick
+  end
+end

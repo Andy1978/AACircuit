@@ -1,0 +1,379 @@
+object Seditform: TSeditform
+  Left = 386
+  Top = 132
+  Width = 488
+  Height = 441
+  ActiveControl = ListBox1
+  Caption = 'Symbole bearbeiten'
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  KeyPreview = True
+  OnKeyDown = FormKeyDown
+  OnKeyPress = FormKeyPress
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object ListBox1: TListBox
+    Left = 280
+    Top = 14
+    Width = 193
+    Height = 291
+    TabStop = False
+    ItemHeight = 13
+    TabOrder = 1
+    OnClick = ListBox1Click
+  end
+  object GB: TGroupBox
+    Left = 104
+    Top = 8
+    Width = 89
+    Height = 337
+    Caption = ' edit here '
+    Color = clBtnFace
+    ParentColor = False
+    TabOrder = 2
+    object PB: TPaintBox
+      Left = 6
+      Top = 2
+      Width = 73
+      Height = 257
+      Cursor = crCross
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Courier'
+      Font.Style = []
+      ParentFont = False
+      OnMouseDown = PBMouseDown
+      OnPaint = PBPaint
+    end
+  end
+  object NewSymbolB: TBitBtn
+    Left = 280
+    Top = 310
+    Width = 193
+    Height = 35
+    Caption = 'neues Symbol'
+    TabOrder = 3
+    TabStop = False
+    OnClick = NewSymbolBClick
+    Glyph.Data = {
+      76010000424D7601000000000000760000002800000020000000100000000100
+      0400000000000001000000000000000000001000000010000000000000000000
+      800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+      FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF0033333333B333
+      333B33FF33337F3333F73BB3777BB7777BB3377FFFF77FFFF77333B000000000
+      0B3333777777777777333330FFFFFFFF07333337F33333337F333330FFFFFFFF
+      07333337F33333337F333330FFFFFFFF07333337F33333337F333330FFFFFFFF
+      07333FF7F33333337FFFBBB0FFFFFFFF0BB37777F3333333777F3BB0FFFFFFFF
+      0BBB3777F3333FFF77773330FFFF000003333337F333777773333330FFFF0FF0
+      33333337F3337F37F3333330FFFF0F0B33333337F3337F77FF333330FFFF003B
+      B3333337FFFF77377FF333B000000333BB33337777777F3377FF3BB3333BB333
+      3BB33773333773333773B333333B3333333B7333333733333337
+    }
+    Margin = 3
+    NumGlyphs = 2
+  end
+  object Symbolsave: TBitBtn
+    Left = 280
+    Top = 352
+    Width = 193
+    Height = 25
+    Caption = 'Symbole speichern'
+    TabOrder = 4
+    TabStop = False
+    OnClick = SymbolsaveClick
+    Glyph.Data = {
+      76010000424D7601000000000000760000002800000020000000100000000100
+      0400000000000001000000000000000000001000000010000000000000000000
+      800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+      FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333330070
+      7700333333337777777733333333008088003333333377F73377333333330088
+      88003333333377FFFF7733333333000000003FFFFFFF77777777000000000000
+      000077777777777777770FFFFFFF0FFFFFF07F3333337F3333370FFFFFFF0FFF
+      FFF07F3FF3FF7FFFFFF70F00F0080CCC9CC07F773773777777770FFFFFFFF039
+      99337F3FFFF3F7F777F30F0000F0F09999937F7777373777777F0FFFFFFFF999
+      99997F3FF3FFF77777770F00F000003999337F773777773777F30FFFF0FF0339
+      99337F3FF7F3733777F30F08F0F0337999337F7737F73F7777330FFFF0039999
+      93337FFFF7737777733300000033333333337777773333333333
+    }
+    NumGlyphs = 2
+  end
+  object GroupBox2: TGroupBox
+    Left = 8
+    Top = 8
+    Width = 89
+    Height = 337
+    Caption = ' preview '
+    TabOrder = 0
+    OnClick = refreshBClick
+    object preview: TPaintBox
+      Left = 6
+      Top = 2
+      Width = 73
+      Height = 273
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Courier'
+      Font.Style = []
+      ParentFont = False
+      OnClick = refreshBClick
+    end
+  end
+  object Edit1: TEdit
+    Left = 378
+    Top = 317
+    Width = 90
+    Height = 21
+    TabStop = False
+    TabOrder = 5
+    Text = 'Symbolname'
+    OnChange = Edit1Change
+  end
+  object refreshB: TBitBtn
+    Left = 8
+    Top = 352
+    Width = 185
+    Height = 25
+    Caption = 'refresh preview'
+    TabOrder = 6
+    OnClick = refreshBClick
+    Glyph.Data = {
+      76010000424D7601000000000000760000002800000020000000100000000100
+      0400000000000001000000000000000000001000000010000000000000000000
+      800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+      FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333303333
+      333333333337FF3333333333330003333333333333777F333333333333080333
+      3333333F33777FF33F3333B33B000B33B3333373F777773F7333333BBB0B0BBB
+      33333337737F7F77F333333BBB0F0BBB33333337337373F73F3333BBB0F7F0BB
+      B333337F3737F73F7F3333BB0FB7BF0BB3333F737F37F37F73FFBBBB0BF7FB0B
+      BBB3773F7F37337F377333BB0FBFBF0BB333337F73F333737F3333BBB0FBF0BB
+      B3333373F73FF7337333333BBB000BBB33333337FF777337F333333BBBBBBBBB
+      3333333773FF3F773F3333B33BBBBB33B33333733773773373333333333B3333
+      333333333337F33333333333333B333333333333333733333333
+    }
+    NumGlyphs = 2
+  end
+  object BitBtn2: TBitBtn
+    Left = 143
+    Top = 384
+    Width = 193
+    Height = 25
+    Caption = 'Re-Import shown *.asc file'
+    TabOrder = 7
+    OnClick = BitBtn2Click
+    Glyph.Data = {
+      76010000424D7601000000000000760000002800000020000000100000000100
+      0400000000000001000000000000000000001000000010000000000000000000
+      800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+      FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+      3333333333FFFFF3333333333999993333333333F77777FFF333333999999999
+      3333333777333777FF33339993707399933333773337F3777FF3399933000339
+      9933377333777F3377F3399333707333993337733337333337FF993333333333
+      399377F33333F333377F993333303333399377F33337FF333373993333707333
+      333377F333777F333333993333101333333377F333777F3FFFFF993333000399
+      999377FF33777F77777F3993330003399993373FF3777F37777F399933000333
+      99933773FF777F3F777F339993707399999333773F373F77777F333999999999
+      3393333777333777337333333999993333333333377777333333
+    }
+    NumGlyphs = 2
+  end
+  object GroupBox1: TGroupBox
+    Left = 200
+    Top = 8
+    Width = 73
+    Height = 337
+    Caption = ' PickPoints '
+    TabOrder = 8
+    object L1x: TLabel
+      Left = 6
+      Top = 10
+      Width = 17
+      Height = 13
+      Caption = 'L1x'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      OnClick = PPLabel
+    end
+    object L1y: TLabel
+      Left = 6
+      Top = 26
+      Width = 17
+      Height = 13
+      Caption = 'L1y'
+      OnClick = PPLabel
+    end
+    object L1mx: TLabel
+      Left = 38
+      Top = 10
+      Width = 25
+      Height = 13
+      Caption = 'L1mx'
+      OnClick = PPLabel
+    end
+    object L1my: TLabel
+      Left = 38
+      Top = 26
+      Width = 25
+      Height = 13
+      Caption = 'L1my'
+      OnClick = PPLabel
+    end
+    object SB: TSpeedButton
+      Left = 6
+      Top = 290
+      Width = 25
+      Height = 25
+      Glyph.Data = {
+        76010000424D7601000000000000760000002800000020000000100000000100
+        0400000000000001000000000000000000001000000010000000000000000000
+        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00555555555555
+        555555FFFFFFFFFF5F5557777777777505555777777777757F55555555555555
+        055555555555FF5575F555555550055030555555555775F7F7F55555550FB000
+        005555555575577777F5555550FB0BF0F05555555755755757F555550FBFBF0F
+        B05555557F55557557F555550BFBF0FB005555557F55575577F555500FBFBFB0
+        305555577F555557F7F5550E0BFBFB003055557575F55577F7F550EEE0BFB0B0
+        305557FF575F5757F7F5000EEE0BFBF03055777FF575FFF7F7F50000EEE00000
+        30557777FF577777F7F500000E05555BB05577777F75555777F5500000555550
+        3055577777555557F7F555000555555999555577755555577755
+      }
+      NumGlyphs = 2
+      OnClick = SBClick
+    end
+    object SBM: TSpeedButton
+      Left = 38
+      Top = 290
+      Width = 25
+      Height = 25
+      Glyph.Data = {
+        76010000424D7601000000000000760000002800000020000000100000000100
+        0400000000000001000000000000000000001000000010000000000000000000
+        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00555555555555
+        555555FFFFFFFFFF5F5557777777777505555777777777757F55555555555555
+        055555555555FF5575F555555550055030555555555775F7F7F55555550FB000
+        005555555575577777F5555550FB0BF0F05555555755755757F555550FBFBF0F
+        B05555557F55557557F555550BFBF0FB005555557F55575577F555500FBFBFB0
+        305555577F555557F7F5550E0BFBFB003055557575F55577F7F550EEE0BFB0B0
+        305557FF575F5757F7F5000EEE0BFBF03055777FF575FFF7F7F50000EEE00000
+        30557777FF577777F7F500000E05555BB05577777F75555777F5500000555550
+        3055577777555557F7F555000555555999555577755555577755
+      }
+      NumGlyphs = 2
+      OnClick = SBMClick
+    end
+    object L2x: TLabel
+      Left = 6
+      Top = 90
+      Width = 17
+      Height = 13
+      Caption = 'L2x'
+      OnClick = PPLabel
+    end
+    object L2y: TLabel
+      Left = 6
+      Top = 106
+      Width = 17
+      Height = 13
+      Caption = 'L2y'
+      OnClick = PPLabel
+    end
+    object L2mx: TLabel
+      Left = 38
+      Top = 90
+      Width = 25
+      Height = 13
+      Caption = 'L2mx'
+      OnClick = PPLabel
+    end
+    object L2my: TLabel
+      Left = 38
+      Top = 106
+      Width = 25
+      Height = 13
+      Caption = 'L2my'
+      OnClick = PPLabel
+    end
+    object L3x: TLabel
+      Left = 6
+      Top = 170
+      Width = 17
+      Height = 13
+      Caption = 'L3x'
+      OnClick = PPLabel
+    end
+    object L3y: TLabel
+      Left = 6
+      Top = 186
+      Width = 17
+      Height = 13
+      Caption = 'L3y'
+      OnClick = PPLabel
+    end
+    object L3mx: TLabel
+      Left = 38
+      Top = 170
+      Width = 25
+      Height = 13
+      Caption = 'L3mx'
+      OnClick = PPLabel
+    end
+    object L3my: TLabel
+      Left = 38
+      Top = 186
+      Width = 25
+      Height = 13
+      Caption = 'L3my'
+      OnClick = PPLabel
+    end
+    object L4x: TLabel
+      Left = 6
+      Top = 250
+      Width = 17
+      Height = 13
+      Caption = 'L4x'
+      OnClick = PPLabel
+    end
+    object L4y: TLabel
+      Left = 6
+      Top = 266
+      Width = 17
+      Height = 13
+      Caption = 'L4y'
+      OnClick = PPLabel
+    end
+    object L4mx: TLabel
+      Left = 38
+      Top = 250
+      Width = 25
+      Height = 13
+      Caption = 'L4mx'
+      OnClick = PPLabel
+    end
+    object L4my: TLabel
+      Left = 38
+      Top = 266
+      Width = 25
+      Height = 13
+      Caption = 'L4my'
+      OnClick = PPLabel
+    end
+  end
+  object Button1: TButton
+    Left = 200
+    Top = 352
+    Width = 73
+    Height = 25
+    Caption = 'show PP'
+    TabOrder = 9
+    OnClick = Button1Click
+  end
+end

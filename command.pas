@@ -1,9 +1,16 @@
 unit command;
 
+{$MODE Delphi}
+
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+{$IFnDEF FPC}
+  Windows,
+{$ELSE}
+  LCLIntf, LCLType, LMessages,
+{$ENDIF}
+  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls;
 
 type
@@ -25,16 +32,16 @@ implementation
 
 uses main;
 
-{$R *.DFM}
+{$R *.lfm}
 
 procedure TcommandF.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
- MainForm.neuzeichnen1Click(sender);
+  MainForm.neuzeichnen1Click(Sender);
 end;
 
 procedure TcommandF.EditManuallyClick(Sender: TObject);
 begin
- commandF.memo2.enabled:=CommandF.EditManually.Checked;
+  commandF.memo2.Enabled := CommandF.EditManually.Checked;
 end;
 
 end.

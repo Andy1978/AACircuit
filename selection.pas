@@ -1,9 +1,12 @@
 unit selection;
 
+{$MODE Delphi}
+
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  LCLIntf, LCLType, LMessages,
+  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, Buttons;
 
 type
@@ -24,6 +27,6 @@ var
 
 implementation
 
-{$R *.DFM}
+{$R *.lfm}
 
 end.

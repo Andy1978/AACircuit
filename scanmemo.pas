@@ -1,9 +1,12 @@
 unit scanmemo;
 
+{$MODE Delphi}
+
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  LCLIntf, LCLType, LMessages,
+  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls;
 
 type
@@ -22,16 +25,16 @@ var
 
 implementation
 
-{$R *.DFM}
+{$R *.lfm}
 
 procedure Tsresult.LBClick(Sender: TObject);
 begin
- modalresult:=mrok;
+  modalresult := mrOk;
 end;
 
 procedure Tsresult.FormShow(Sender: TObject);
 begin
- lb.ItemIndex:=-1;
+  lb.ItemIndex := -1;
 end;
 
 end.
